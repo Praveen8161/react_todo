@@ -2,7 +2,7 @@ export type data = {
   name: string;
   description: string | null;
   completed: boolean;
-  priority: string;
+  priority: "High" | "Medium" | "Low";
   date: Date;
 };
 

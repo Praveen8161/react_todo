@@ -30,7 +30,7 @@ const DisplayTodo = ({
 
   return (
     <main className="flex justify-center ">
-      <section className="max-w-[1200px] flex flex-col justify-center items-start gap-3">
+      <section className="sm:max-w-[1200px] flex flex-col justify-center items-center px-2  gap-3  w-full">
         {/* If there is no Todo List*/}
 
         {(!todoData || todoData.length < 1) && (
@@ -47,21 +47,21 @@ const DisplayTodo = ({
           todoData.map((todo) => (
             <div
               key={todo.date.toString()}
-              className="flex flex-row px-3 py-2 border flex-nowrap rounded-2xl max-w-[240px] sm:max-w-[500px] gap-4 min-w-[240px] sm:min-w-[350px] md:min-w-[450px] w-full"
+              className="flex flex-row px-3 py-2 border flex-nowrap rounded-2xl sm:max-w-[500px] gap-3 sm:gap-4 sm:min-w-[350px] md:min-w-[450px] w-full min-w-[min(100%, 500px)] max-w-[500px] justify-between"
             >
               <Checkbox
                 isSelected={todo.completed}
                 color="success"
                 lineThrough={true}
                 onClick={() => handleCheckBox(todo.date.toString())}
-                className=" max-w-[7%] w-full"
+                className=" max-w-[15%] sm:max-w-[7%] w-full"
               ></Checkbox>
               <span
                 onClick={() => {
                   onOpen();
                   setCurrTodo(() => todo);
                 }}
-                className={`text-xs sm:text-base overflow-hidden text-ellipsis whitespace-nowrap max-w-[43%] w-full
+                className={`text-xs self-center text-start sm:text-base overflow-hidden text-ellipsis whitespace-nowrap max-w-[20%] sm:max-w-[43%] w-full
                 ${todo.completed ? " line-through" : ""}
                 `}
               >
@@ -75,7 +75,7 @@ const DisplayTodo = ({
                     ? "warning"
                     : "secondary"
                 }
-                className=" max-w-[25%] min-w-max w-[100%] text-center text-xs"
+                className=" min-w-max w-[100%] text-center text-xs max-w-[70px]"
               >
                 {todo.priority}
               </Chip>
@@ -85,12 +85,16 @@ const DisplayTodo = ({
                   onOpenEdit();
                   setCurrTodo(() => todo);
                 }}
+                className="self-center "
               >
                 <EditIcon />
               </span>
 
               {/* Delete Icon */}
-              <span onClick={() => handleDelete(todo.date.toString())}>
+              <span
+                onClick={() => handleDelete(todo.date.toString())}
+                className="self-center "
+              >
                 <DeleteIcon />
               </span>
             </div>
@@ -149,7 +153,7 @@ const DeleteIcon = () => {
       viewBox="0 0 24 24"
       strokeWidth={1}
       stroke="currentColor"
-      className="self-center w-full cursor-pointer sm:max-w-6 sm:max-h-6 max-h-4 max-w-4"
+      className="self-center w-full h-full cursor-pointer sm:max-w-6 sm:max-h-6 max-h-4 max-w-4"
     >
       <path
         strokeLinecap="round"

@@ -48,7 +48,6 @@ const App = () => {
 
   // Editing TODO
   const handleEdit = function (editTodo: data): void {
-    console.log(editTodo);
     const tempData = mainTodoData?.map((todo) => {
       if (todo.date.toString() === editTodo.date.toString()) {
         return editTodo;
@@ -60,6 +59,13 @@ const App = () => {
     setTodoData(tempData ? tempData : null);
   };
 
+  // Add New TODO
+  const handleNewTodo = function (newTodo: data): void {
+    setMainTodoData((prev) => [...(prev ? prev : []), newTodo]);
+
+    setTodoData((prev) => [...(prev ? prev : []), newTodo]);
+  };
+
   return (
     <div>
       {/* Header */}
@@ -68,7 +74,11 @@ const App = () => {
       </>
 
       {/* Adding New Todo */}
-      <>{viewAdd && <AddToDo setViewAdd={setViewAdd} />}</>
+      <>
+        {viewAdd && (
+          <AddToDo setViewAdd={setViewAdd} handleNewTodo={handleNewTodo} />
+        )}
+      </>
 
       {/* Filter Options */}
       <>
