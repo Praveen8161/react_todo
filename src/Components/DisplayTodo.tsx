@@ -3,19 +3,29 @@ import { data } from "../helpers/Data";
 import { useDisclosure } from "@nextui-org/react";
 import SingleTodoView from "./SingleTodoView";
 import { useState } from "react";
+import EditTodo from "./EditTodo";
 
 type DisplayProps = {
   todoData: data[] | null;
   handleCheckBox: (id: string) => void;
   handleDelete: (id: string) => void;
+  handleEdit: (editTodo: data) => void;
 };
 
 const DisplayTodo = ({
   todoData,
   handleCheckBox,
   handleDelete,
+  handleEdit,
 }: DisplayProps) => {
+  // For single Todo View
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  //   For Todo Edit
+  const {
+    isOpen: isOpenEdit,
+    onOpen: onOpenEdit,
+    onOpenChange: onOpenChangeEdit,
+  } = useDisclosure();
   const [currTodo, setCurrTodo] = useState<data | null>(null);
 
   return (
@@ -44,18 +54,19 @@ const DisplayTodo = ({
                 color="success"
                 lineThrough={true}
                 onClick={() => handleCheckBox(todo.date.toString())}
-                className=" max-w-[50%] w-full text-xs sm:text-base overflow-hidden text-ellipsis whitespace-nowrap "
+                className=" max-w-[7%] w-full"
+              ></Checkbox>
+              <span
+                onClick={() => {
+                  onOpen();
+                  setCurrTodo(() => todo);
+                }}
+                className={`text-xs sm:text-base overflow-hidden text-ellipsis whitespace-nowrap max-w-[43%] w-full
+                ${todo.completed ? " line-through" : ""}
+                `}
               >
-                <span
-                  onClick={() => {
-                    onOpen();
-
-                    setCurrTodo(() => todo);
-                  }}
-                >
-                  {todo.name}
-                </span>
-              </Checkbox>
+                {todo.name}
+              </span>
               <Chip
                 color={
                   todo.priority === "High"
@@ -69,7 +80,14 @@ const DisplayTodo = ({
                 {todo.priority}
               </Chip>
               {/* Edit Icon */}
-              <EditIcon />
+              <span
+                onClick={() => {
+                  onOpenEdit();
+                  setCurrTodo(() => todo);
+                }}
+              >
+                <EditIcon />
+              </span>
 
               {/* Delete Icon */}
               <span onClick={() => handleDelete(todo.date.toString())}>
@@ -78,11 +96,25 @@ const DisplayTodo = ({
             </div>
           ))}
 
-        <SingleTodoView
-          isOpen={isOpen}
-          onOpenChange={onOpenChange}
-          currTodo={currTodo}
-        />
+        {/* Models */}
+        <>
+          {/* View Single Todo */}
+          <SingleTodoView
+            isOpen={isOpen}
+            onOpenChange={onOpenChange}
+            currTodo={currTodo}
+          />
+
+          {/* Edit Single Todo */}
+          {currTodo && (
+            <EditTodo
+              handleEdit={handleEdit}
+              isOpenEdit={isOpenEdit}
+              onOpenChangeEdit={onOpenChangeEdit}
+              currTodo={currTodo}
+            />
+          )}
+        </>
       </section>
     </main>
   );

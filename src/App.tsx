@@ -17,7 +17,7 @@ const App = () => {
 
   // Checkbox For TODO
   const handleCheckBox = function (id: string): void {
-    const tempData = todoData?.map((todo) => {
+    const tempData = mainTodoData?.map((todo) => {
       if (id === todo.date.toString()) {
         return {
           ...todo,
@@ -27,9 +27,14 @@ const App = () => {
 
       return todo;
     });
-
-    if (tempData?.length) setTodoData(() => tempData);
-    else setTodoData(null);
+    console.log(tempData);
+    if (tempData?.length) {
+      setMainTodoData(() => tempData);
+      setTodoData(() => tempData);
+    } else {
+      setMainTodoData(() => null);
+      setTodoData(() => null);
+    }
   };
 
   // Deleting the TODO
@@ -37,6 +42,20 @@ const App = () => {
     const tempData = mainTodoData?.filter(
       (todo) => todo.date.toString() !== id
     );
+    setMainTodoData(tempData ? tempData : null);
+    setTodoData(tempData ? tempData : null);
+  };
+
+  // Editing TODO
+  const handleEdit = function (editTodo: data): void {
+    console.log(editTodo);
+    const tempData = mainTodoData?.map((todo) => {
+      if (todo.date.toString() === editTodo.date.toString()) {
+        return editTodo;
+      }
+
+      return todo;
+    });
     setMainTodoData(tempData ? tempData : null);
     setTodoData(tempData ? tempData : null);
   };
@@ -62,6 +81,7 @@ const App = () => {
           todoData={todoData}
           handleCheckBox={handleCheckBox}
           handleDelete={handleDelete}
+          handleEdit={handleEdit}
         />
       </>
     </div>

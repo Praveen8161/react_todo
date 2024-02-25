@@ -8,7 +8,7 @@ export type data = {
 
 export const todos: data[] = [
   {
-    name: "Task 1kjmkbblbkbjbmn",
+    name: "Task 1",
     description: "This is a task-1",
     completed: false,
     priority: "High",
