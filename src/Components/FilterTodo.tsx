@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 const FilterTodo = () => {
   const [showDrop, setShowDrop] = useState<boolean>(false);
   const dropDownRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (
@@ -20,6 +21,7 @@ const FilterTodo = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
   return (
     <div className="flex justify-center px-5 py-2 ">
       <div className="flex items-center justify-end w-full gap-2 max-w-7xl">

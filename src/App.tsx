@@ -7,12 +7,15 @@ import DisplayTodo from "./Components/DisplayTodo";
 
 const App = () => {
   const [viewAdd, setViewAdd] = useState<boolean>(false);
+  const [mainTodoData, setMainTodoData] = useState<data[] | null>(null);
   const [todoData, setTodoData] = useState<data[] | null>(null);
 
   useEffect(() => {
-    setTodoData(todos);
+    setMainTodoData(() => todos);
+    setTodoData(() => todos);
   }, []);
 
+  // Checkbox For TODO
   const handleCheckBox = function (id: string): void {
     const tempData = todoData?.map((todo) => {
       if (id === todo.date.toString()) {
@@ -27,6 +30,15 @@ const App = () => {
 
     if (tempData?.length) setTodoData(() => tempData);
     else setTodoData(null);
+  };
+
+  // Deleting the TODO
+  const handleDelete = function (id: string): void {
+    const tempData = mainTodoData?.filter(
+      (todo) => todo.date.toString() !== id
+    );
+    setMainTodoData(tempData ? tempData : null);
+    setTodoData(tempData ? tempData : null);
   };
 
   return (
@@ -46,7 +58,11 @@ const App = () => {
 
       {/* Display Todo */}
       <>
-        <DisplayTodo todoData={todoData} handleCheckBox={handleCheckBox} />
+        <DisplayTodo
+          todoData={todoData}
+          handleCheckBox={handleCheckBox}
+          handleDelete={handleDelete}
+        />
       </>
     </div>
   );

@@ -7,9 +7,14 @@ import { useState } from "react";
 type DisplayProps = {
   todoData: data[] | null;
   handleCheckBox: (id: string) => void;
+  handleDelete: (id: string) => void;
 };
 
-const DisplayTodo = ({ todoData, handleCheckBox }: DisplayProps) => {
+const DisplayTodo = ({
+  todoData,
+  handleCheckBox,
+  handleDelete,
+}: DisplayProps) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [currTodo, setCurrTodo] = useState<data | null>(null);
 
@@ -67,7 +72,9 @@ const DisplayTodo = ({ todoData, handleCheckBox }: DisplayProps) => {
               <EditIcon />
 
               {/* Delete Icon */}
-              <DeleteIcon />
+              <span onClick={() => handleDelete(todo.date.toString())}>
+                <DeleteIcon />
+              </span>
             </div>
           ))}
 
