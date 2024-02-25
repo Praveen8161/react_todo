@@ -1,10 +1,34 @@
 import { RadioGroup, Radio, Divider } from "@nextui-org/react";
 import { useEffect, useRef, useState } from "react";
+import { data } from "../helpers/Data";
 
-const FilterTodo = () => {
+type FileterTodoType = {
+  mainTodoData: data[] | null;
+  setMainTodoData: React.Dispatch<React.SetStateAction<data[] | null>>;
+  setTodoData: React.Dispatch<React.SetStateAction<data[] | null>>;
+};
+
+type FilterValueType = {
+  search: string | null;
+  completed: boolean | null;
+  priority: string | null;
+};
+
+const FilterTodo = ({
+  mainTodoData,
+  setMainTodoData,
+  setTodoData,
+}: FileterTodoType) => {
+  //
   const [showDrop, setShowDrop] = useState<boolean>(false);
   const dropDownRef = useRef<HTMLDivElement>(null);
+  const [filterValues, setFilterValues] = useState<FilterValueType>({
+    search: null,
+    completed: null,
+    priority: null,
+  });
 
+  // TO close the dropdown by clicking outside
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (

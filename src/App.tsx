@@ -7,9 +7,12 @@ import DisplayTodo from "./Components/DisplayTodo";
 
 const App = () => {
   const [viewAdd, setViewAdd] = useState<boolean>(false);
+  // Main Todo Data
   const [mainTodoData, setMainTodoData] = useState<data[] | null>(null);
+  // Todo data for rendering and Filtering
   const [todoData, setTodoData] = useState<data[] | null>(null);
 
+  // Initializing values
   useEffect(() => {
     setMainTodoData(() => todos);
     setTodoData(() => todos);
@@ -82,7 +85,11 @@ const App = () => {
 
       {/* Filter Options */}
       <>
-        <FilterTodo />
+        <FilterTodo
+          mainTodoData={mainTodoData}
+          setMainTodoData={setMainTodoData}
+          setTodoData={setTodoData}
+        />
       </>
 
       {/* Display Todo */}

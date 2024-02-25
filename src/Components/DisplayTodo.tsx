@@ -20,12 +20,14 @@ const DisplayTodo = ({
 }: DisplayProps) => {
   // For single Todo View
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+
   //   For Todo Edit
   const {
     isOpen: isOpenEdit,
     onOpen: onOpenEdit,
     onOpenChange: onOpenChangeEdit,
   } = useDisclosure();
+
   const [currTodo, setCurrTodo] = useState<data | null>(null);
 
   return (
@@ -56,6 +58,8 @@ const DisplayTodo = ({
                 onClick={() => handleCheckBox(todo.date.toString())}
                 className=" max-w-[15%] sm:max-w-[7%] w-full"
               ></Checkbox>
+
+              {/* TODO Name */}
               <span
                 onClick={() => {
                   onOpen();
@@ -67,6 +71,8 @@ const DisplayTodo = ({
               >
                 {todo.name}
               </span>
+
+              {/* Priority */}
               <Chip
                 color={
                   todo.priority === "High"
@@ -79,6 +85,7 @@ const DisplayTodo = ({
               >
                 {todo.priority}
               </Chip>
+
               {/* Edit Icon */}
               <span
                 onClick={() => {
