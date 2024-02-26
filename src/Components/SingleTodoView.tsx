@@ -59,7 +59,7 @@ const SingleTodoView = ({ isOpen, onOpenChange, currTodo }: singleTodoType) => {
                 <p>{currTodo?.description}</p>
               </>
               <>
-                <p className="text-lg font-semibold ">Date: </p>
+                <p className="text-lg font-semibold ">Created On: </p>
                 <p>{currTodo?.date.toLocaleString("en-US", options)}</p>
               </>
               <Chip
