@@ -9,23 +9,19 @@ type FileterTodoType = {
 };
 
 type FilterValueType = {
-  search: string | null;
-  completed: boolean | null;
-  priority: string | null;
+  search: string;
+  completed: "true" | "false" | "All";
+  priority: "High" | "Medium" | "Low" | "All";
 };
 
-const FilterTodo = ({
-  mainTodoData,
-  setMainTodoData,
-  setTodoData,
-}: FileterTodoType) => {
+const FilterTodo = ({ mainTodoData, setTodoData }: FileterTodoType) => {
   //
   const [showDrop, setShowDrop] = useState<boolean>(false);
   const dropDownRef = useRef<HTMLDivElement>(null);
   const [filterValues, setFilterValues] = useState<FilterValueType>({
-    search: null,
-    completed: null,
-    priority: null,
+    search: "",
+    completed: "All",
+    priority: "All",
   });
 
   // TO close the dropdown by clicking outside
@@ -46,6 +42,47 @@ const FilterTodo = ({
     };
   }, []);
 
+  const handleFilterValues = function (
+    e: React.ChangeEvent<HTMLInputElement>
+  ): void {
+    setFilterValues((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  useEffect(() => {
+    const handleFilter = function (): void {
+      const tempData = mainTodoData?.filter((todo) => {
+        if (
+          filterValues.completed !== "All" &&
+          todo.completed.toString() !== filterValues.completed
+        ) {
+          return false;
+        }
+        if (
+          filterValues.priority !== "All" &&
+          todo.priority !== filterValues.priority
+        ) {
+          return false;
+        }
+
+        if (
+          filterValues.search !== "" &&
+          !todo.name.toLowerCase().includes(filterValues.search.toLowerCase())
+        ) {
+          return false;
+        }
+
+        return true;
+      });
+
+      setTodoData(tempData || null);
+    };
+
+    handleFilter();
+  }, [filterValues.priority, filterValues.completed, filterValues.search]);
+
   return (
     <div className="flex justify-center px-5 py-2 ">
       <div className="flex items-center justify-end w-full gap-2 max-w-7xl">
@@ -54,6 +91,9 @@ const FilterTodo = ({
           type="search"
           className=" max-w-[150px] sm:max-w-[250px] rounded-lg sm:px-3 sm:py-2 py-1 px-2"
           placeholder="Search"
+          name="search"
+          value={filterValues.search}
+          onChange={handleFilterValues}
         />
 
         <div className="relative ">
@@ -71,16 +111,29 @@ const FilterTodo = ({
               ref={dropDownRef}
             >
               <div className="px-3 py-2" role="none">
-                <RadioGroup label="Status" color="secondary" defaultValue="All">
+                {/* Status */}
+                <RadioGroup
+                  label="Status"
+                  color="secondary"
+                  defaultValue="All"
+                  name="completed"
+                  value={filterValues.completed}
+                  onChange={handleFilterValues}
+                >
                   <Radio value="All">All</Radio>
-                  <Radio value="Not Completed">Not Completed</Radio>
-                  <Radio value="Completed">Completed</Radio>
+                  <Radio value="false">Not Completed</Radio>
+                  <Radio value="true">Completed</Radio>
                 </RadioGroup>
                 <Divider className="my-2" />
+
+                {/* Priority */}
                 <RadioGroup
                   label="Priority"
                   color="secondary"
                   defaultValue="All"
+                  name="priority"
+                  value={filterValues.priority}
+                  onChange={handleFilterValues}
                 >
                   <Radio value="All">All</Radio>
                   <Radio value="High">High</Radio>
