@@ -4,8 +4,8 @@ import { data } from "../helpers/Data";
 
 type FileterTodoType = {
   mainTodoData: data[] | null;
-  setMainTodoData: React.Dispatch<React.SetStateAction<data[] | null>>;
   setTodoData: React.Dispatch<React.SetStateAction<data[] | null>>;
+  addedNewvalue: boolean;
 };
 
 type FilterValueType = {
@@ -14,7 +14,11 @@ type FilterValueType = {
   priority: "High" | "Medium" | "Low" | "All";
 };
 
-const FilterTodo = ({ mainTodoData, setTodoData }: FileterTodoType) => {
+const FilterTodo = ({
+  mainTodoData,
+  setTodoData,
+  addedNewvalue,
+}: FileterTodoType) => {
   //
   const [showDrop, setShowDrop] = useState<boolean>(false);
   const dropDownRef = useRef<HTMLDivElement>(null);
@@ -81,7 +85,12 @@ const FilterTodo = ({ mainTodoData, setTodoData }: FileterTodoType) => {
     };
 
     handleFilter();
-  }, [filterValues.priority, filterValues.completed, filterValues.search]);
+  }, [
+    filterValues.priority,
+    filterValues.completed,
+    filterValues.search,
+    addedNewvalue,
+  ]);
 
   return (
     <div className="flex justify-center px-5 py-2 ">

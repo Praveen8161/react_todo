@@ -11,6 +11,8 @@ const App = () => {
   const [mainTodoData, setMainTodoData] = useState<data[] | null>(null);
   // Todo data for rendering and Filtering
   const [todoData, setTodoData] = useState<data[] | null>(null);
+  // To manually invoke filter when adding new value
+  const [addedNewvalue, setAddedNewValue] = useState<boolean>(false);
 
   // Initializing values
   useEffect(() => {
@@ -30,10 +32,20 @@ const App = () => {
 
       return todo;
     });
-    console.log(tempData);
-    if (tempData?.length) {
+
+    const tempData2 = todoData?.map((todo) => {
+      if (id === todo.date.toString()) {
+        return {
+          ...todo,
+          completed: !todo.completed,
+        };
+      }
+
+      return todo;
+    });
+    if (tempData?.length && tempData2?.length) {
       setMainTodoData(() => tempData);
-      setTodoData(() => tempData);
+      setTodoData(() => tempData2);
     } else {
       setMainTodoData(() => null);
       setTodoData(() => null);
@@ -46,7 +58,9 @@ const App = () => {
       (todo) => todo.date.toString() !== id
     );
     setMainTodoData(tempData ? tempData : null);
-    setTodoData(tempData ? tempData : null);
+
+    const tempData2 = todoData?.filter((todo) => todo.date.toString() !== id);
+    setTodoData(tempData2 ? tempData2 : null);
   };
 
   // Editing TODO
@@ -59,7 +73,15 @@ const App = () => {
       return todo;
     });
     setMainTodoData(tempData ? tempData : null);
-    setTodoData(tempData ? tempData : null);
+
+    const tempData2 = todoData?.map((todo) => {
+      if (todo.date.toString() === editTodo.date.toString()) {
+        return editTodo;
+      }
+
+      return todo;
+    });
+    setTodoData(tempData2 ? tempData2 : null);
   };
 
   // Add New TODO
@@ -67,6 +89,9 @@ const App = () => {
     setMainTodoData((prev) => [...(prev ? prev : []), newTodo]);
 
     setTodoData((prev) => [...(prev ? prev : []), newTodo]);
+
+    // manually invoking filter method
+    setAddedNewValue((prev) => !prev);
   };
 
   return (
@@ -87,8 +112,8 @@ const App = () => {
       <>
         <FilterTodo
           mainTodoData={mainTodoData}
-          setMainTodoData={setMainTodoData}
           setTodoData={setTodoData}
+          addedNewvalue={addedNewvalue}
         />
       </>
 
