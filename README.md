@@ -20,12 +20,4 @@ This is a robust and interactive TODO Web Application built using React.js. It a
 
 ## Usage
 
-Open your browser and go to `http://localhost:3000` to view the application.
-
-## Contributing
-
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
-
-## License
-
-MIT
+Open your browser and go to `http://localhost:5173` to view the application.
